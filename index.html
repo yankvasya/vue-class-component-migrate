@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Migrate helper</title>
+  <link rel="stylesheet" href="./gardevoir.min.css" />
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="input-wrapper">
+     <label for="source-text"></label>
+     <textarea
+         class="input"
+         name="text"
+         id="source-text"
+         placeholder="Paste source code"
+     ></textarea>
+    </div>
+
+    <div class="output-wrapper">
+      <div id="output-text" class="output"></div>
+      <div id="output-copy" class="output-copy">Copy</div>
+    </div>
+
+    <div class="notification-wrapper">
+      <div id="notification" class="notification">Copied to clipboard</div>
+    </div>
+  </div>
+
+  <script src="./main.js"></script>
+</body>
+</html>
