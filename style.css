@@ -3,10 +3,13 @@ html, body {
     background: #001f3f;
 }
 
+body {
+    position: relative;
+}
+
 .app {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 50px;
     gap: 50px;
     align-items: center;
     justify-content: center;
@@ -20,7 +23,7 @@ html, body {
     height: 100%;
 }
 
-.input-wrapper, .output-wrapper, .notification-wrapper {
+.input-wrapper, .output-wrapper {
     height: 100%;
 }
 
@@ -29,17 +32,8 @@ html, body {
 }
 
 .output {
-    width: 100%;
     height: 100%;
     background: white;
-}
-
-.notification-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    grid-column: 1 / 3;
 }
 
 .output-copy {
@@ -58,19 +52,24 @@ html, body {
 
 .notification {
     display: flex;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
     justify-content: center;
     align-items: center;
     width: 200px;
-    height: 30px;
+    height: 0;
     background: darkred;
     color: aliceblue;
     border-radius: 10px;
+    overflow: hidden;;
 
-    transform: scale(1%);
+    transform: translateX(-50%);
     transition: all .3s;
 }
 
 .notification.active {
-    transform: scale(100%);
+    width: 200px;
+    height: 30px;
     transition: all .3s;
 }
