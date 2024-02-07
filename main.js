@@ -66,6 +66,7 @@ const transformProps = (source) => {
 
 const transformToComposition = (source) => {
     let output = source
+
     const functions = [
         removeImport,
         addSetupToScript,
