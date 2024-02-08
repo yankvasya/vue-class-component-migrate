@@ -1,11 +1,11 @@
 export const removeImport = (source) => {
     return source
         .replace(/import Component from 'vue-class-component';/, '')
-        .replace(/import { Component, Emit, Prop, Vue } from 'vue-property-decorator';/, '');
+        .replace(/import\s+\{(?:[^{}]*\s*,\s*)*[^{}]*}\s+from\s+'vue-property-decorator';/, '');
 };
 
 export const addSetupToScript = (source) => {
-    return source.replace('<script lang="ts">', '<script lang="ts" setup>');
+    return source.replace(/<script\s*(?:lang=["']?ts["']?)?\s*>/gm, (match) => match.replace('>', ' setup>'));
 };
 
 export const transformGetToComputed = (source) => {
