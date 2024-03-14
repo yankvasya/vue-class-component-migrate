@@ -238,31 +238,65 @@ const emit = defineEmits({
 
 const a = 2`,
   },
+]
+
+export const examplesTransformedFunctions = [
   {
     source:
-      ``,
+`doFn(value: string, params: {value: number}) {
+  console.log(value)
+}`,
     expectedOutput:
-      ``,
+`const doFn = (value: string, params: {value: number}) => {
+  console.log(value)
+}`,
+  },
+  {
+    source:
+`doFn(value: string, params: {value: number}) {
+  console.log(value)
+}
+
+doSome() {
+  number += 1
+}`,
+    expectedOutput:
+`const doFn = (value: string, params: {value: number}) => {
+  console.log(value)
+}
+
+const doSome = () => {
+  number += 1
+}`,
   },
 ]
 
 export const examplesTransformedVariables = [
   {
     source:
-      ``,
+`value: boolean = false;
+value2: number = 1;`,
     expectedOutput:
-      ``,
+`const value: boolean = false;
+const value2: number = 1;`,
   },
   {
     source:
-      ``,
-    expectedOutput:
-      ``,
-  },
-  {
-    source:
-      ``,
-    expectedOutput:
-      ``,
-  },
+`@Component({
+  name: 'MainComponent',
+  components: { ComponentFirst },
+})
+export default class MainComponent extends Vue {
+  value: boolean = false;
+  value2: number = 1;
+}`,
+    expectedOutput: `@Component({
+  name: 'MainComponent',
+  components: { ComponentFirst },
+})
+export default class MainComponent extends Vue {
+  const value: boolean = false;
+  const value2: number = 1;
+}`
+  }
 ]

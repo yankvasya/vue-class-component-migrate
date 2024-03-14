@@ -104,7 +104,26 @@ export const transformEmits = (source) => {
 
 
 export const transformVariables = (source) => {
-    return source
+    const variableRegex = /\b(\w+)\s*:\s*(?:boolean|number|string)\s*=\s*[^;]+/g;
+
+    const replaceVariable = (match) => {
+        return `const ${match.trim()}`;
+    };
+
+    return source.replace(variableRegex, replaceVariable);
+};
+
+export const transformFunctions = (source) => {
+    const functionRegex = /(\w+)\s*\(([^)]*)\)\s*{([^}]*)}/g;
+
+    const replaceFunction = (match, functionName, parameters, body) => {
+        parameters = parameters.trim();
+        body = body.trim();
+
+        return `const ${functionName} = (${parameters}) => {\n  ${body}\n}`;
+    };
+
+    return source.replace(functionRegex, replaceFunction);
 };
 
 export const transformToComposition = (source) => {
@@ -114,12 +133,13 @@ export const transformToComposition = (source) => {
         removeImport,
         addSetupToScript,
         transformGetToComputed,
-        removeComponentDecorator,
+        // removeComponentDecorator,
         removeClassDeclaration,
         transformWatchers,
         transformProps,
         transformEmits,
-        transformVariables
+        transformFunctions,
+        transformVariables,
     ]
 
     for (const func of functions) {
