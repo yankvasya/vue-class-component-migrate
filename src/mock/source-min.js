@@ -1,4 +1,3 @@
-// EXAMPLES FOR BASE TEST
 export const examplesWithSetup =
   [
     {
@@ -134,7 +133,7 @@ console.log('more')});
   }
 ]
 
-export const examplesTransformedProps =[
+export const examplesTransformedProps = [
   {
   source:
 `@Prop({ default: false, type: Boolean }) loading!: boolean;`,
@@ -190,4 +189,80 @@ const props = withDefaults(defineProps<Props>(), {
 
 console.log(123)`
   }
+]
+
+export const examplesTransformedEmits = [
+  {
+    source:
+`@Emit()
+click() {
+  return;
+}`,
+    expectedOutput:
+`
+const emit = defineEmits({
+  click: () => {
+    return;
+  },
+});
+`,
+  },
+  {
+    source:
+`const a = 1;
+
+@Emit()
+click() {
+  return;
+}
+
+@Emit('change')
+onInputChange(value) {
+  return value;
+}
+
+const a = 2`,
+    expectedOutput:
+`const a = 1;
+
+
+const emit = defineEmits({
+  click: () => {
+    return;
+  },
+  onInputChange: (value) => {
+    return value;
+  },
+});
+
+
+const a = 2`,
+  },
+  {
+    source:
+      ``,
+    expectedOutput:
+      ``,
+  },
+]
+
+export const examplesTransformedVariables = [
+  {
+    source:
+      ``,
+    expectedOutput:
+      ``,
+  },
+  {
+    source:
+      ``,
+    expectedOutput:
+      ``,
+  },
+  {
+    source:
+      ``,
+    expectedOutput:
+      ``,
+  },
 ]

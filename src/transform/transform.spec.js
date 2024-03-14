@@ -20,6 +20,8 @@ import {
     examplesRemovedClassDeclaration,
     examplesTransformedWatchers,
     examplesTransformedProps,
+    examplesTransformedEmits,
+    examplesTransformedVariables,
     examplesTransformedToComposition,
 } from '../mock/source-min';
 
@@ -31,7 +33,7 @@ import {
     removeClassDeclaration,
     transformWatchers,
     transformProps,
-    transformToComposition,
+    transformToComposition, transformEmits,
 } from './transform';
 
 describe('min examples check', () => {
@@ -85,6 +87,13 @@ describe('min examples check', () => {
     test('transform props', () => {
         for (const example of examplesTransformedProps) {
             const transformedSource = transformProps(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
+
+    test('transform emits', () => {
+        for (const example of examplesTransformedEmits) {
+            const transformedSource = transformEmits(example.source);
             expect(transformedSource).toBe(example.expectedOutput);
         }
     });

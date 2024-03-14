@@ -77,6 +77,36 @@ export const transformProps = (source) => {
     return `${beforeText}\n${interfaceCode}${propsInitialization}\n${afterText}`;
 };
 
+export const transformEmits = (source) => {
+    const emitRegex = /@Emit\(([^)]*)\)\s+(\w+)\s*\(([^)]*)\)\s*{([^}]*)}/g;
+    const beforeTextMatch = /^(.*?)(?=@Emit|$)/s;
+    const afterTextMatch = /(?<=@Emit\([^)]*\)\s+\w+\s*\([^)]*\)\s*{[^}]*})\s*(.*)/gm
+
+    let emitDefinitions = '';
+
+    const [, beforeText = ''] = source.match(beforeTextMatch) || ['','']
+    const [, afterText = ''] = source.match(afterTextMatch) || ['','']
+
+    for (const match of source.matchAll(emitRegex)) {
+        const [, , eventName, params, eventFunction] = match;
+        const eventParams = params.split(',').map(param => param.trim()).join(', ');
+        const arrowFunction = eventFunction.trim().replace(/^return;/, 'return;').replace(/(\n|^)(\s+)/g, '$1$2$2');
+
+        emitDefinitions += `  ${eventName}: (${eventParams}) => {\n    ${arrowFunction}\n  },\n`;
+    }
+
+    if (!emitDefinitions) {
+        return source;
+    }
+
+    return `${beforeText}\nconst emit = defineEmits({\n${emitDefinitions}});\n${afterText}`;
+};
+
+
+export const transformVariables = (source) => {
+    return source
+};
+
 export const transformToComposition = (source) => {
     let output = source
 
@@ -88,6 +118,8 @@ export const transformToComposition = (source) => {
         removeClassDeclaration,
         transformWatchers,
         transformProps,
+        transformEmits,
+        transformVariables
     ]
 
     for (const func of functions) {
