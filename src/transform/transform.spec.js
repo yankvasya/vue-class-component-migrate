@@ -34,7 +34,7 @@ import {
     transformToComposition,
 } from './transform';
 
-describe('full examples check', () => {
+describe('min examples check', () => {
     test('source exist', () => {
         expect(initedSource).toBeDefined();
         expect(initedSource).toHaveLength(initedSource.length);
@@ -54,24 +54,58 @@ describe('full examples check', () => {
         }
     });
 
+    test('transform get to computed', () => {
+        for (const example of examplesTransformedGet) {
+            const transformedSource = transformGetToComputed(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
+
+    test('remove component decorator', () => {
+        for (const example of examplesRemovedComponentDecorator) {
+            const transformedSource = removeComponentDecorator(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
+
+    test('remove class decoration', () => {
+        for (const example of examplesRemovedClassDeclaration) {
+            const transformedSource = removeClassDeclaration(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
+
+    test('transform watchers', () => {
+        for (const example of examplesTransformedWatchers) {
+            const transformedSource = transformWatchers(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
+
+    test('transform props', () => {
+        for (const example of examplesTransformedProps) {
+            const transformedSource = transformProps(example.source);
+            expect(transformedSource).toBe(example.expectedOutput);
+        }
+    });
 })
 
-describe('full examples check', () => {
-    test('source exist', () => {
-        expect(initedSource).toBeDefined();
-        expect(initedSource).toHaveLength(initedSource.length);
-    });
-
-    test('add setup to <script>', () => {
-        const transformedSource = addSetupToScript(initedSource);
-        expect(transformedSource).toBe(expectedOutputWithSetup);
-    });
-
-    test('remove imports', () => {
-        const transformedSource = removeImport(initedSource);
-        expect(transformedSource).toBe(expectedOutputRemovedImports);
-    });
-
+// describe('full examples check', () => {
+//     test('source exist', () => {
+//         expect(initedSource).toBeDefined();
+//         expect(initedSource).toHaveLength(initedSource.length);
+//     });
+//
+//     test('add setup to <script>', () => {
+//         const transformedSource = addSetupToScript(initedSource);
+//         expect(transformedSource).toBe(expectedOutputWithSetup);
+//     });
+//
+//     test('remove imports', () => {
+//         const transformedSource = removeImport(initedSource);
+//         expect(transformedSource).toBe(expectedOutputRemovedImports);
+//     });
+//
 // test('transform get() to computed', () => {
 //     const transformedSource = transformGetToComputed(initedSource);
 //     expect(transformedSource).not.toMatch(/get\s+(\w+)\(\)/);
@@ -104,4 +138,4 @@ describe('full examples check', () => {
 //     expect(transformedSource).not.toMatch(/import Component from 'vue-class-component';/);
 //     expect(transformedSource).not.toMatch(/@Component/);
 // });
-})
+// })

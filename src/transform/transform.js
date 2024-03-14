@@ -9,18 +9,20 @@ export const addSetupToScript = (source) => {
 };
 
 export const transformGetToComputed = (source) => {
-    return source.replaceAll(/get\s+(\w+)\(\)\s*{([^}]*)}/g, (match, propertyName, propertyBody) => {
+    return source.replace(/get\s+(\w+)\(\)\s*{([^}]*)}/g, (match, propertyName, propertyBody) => {
         return `const ${propertyName} = computed(() => {${propertyBody}})`;
     });
 };
 
 export const removeComponentDecorator = (source) => {
-    return source.replace(/@Component\s*\([\s\S]*?\)\s*\n/, '');
+    return source.replace(/@Component\({[\D\d:']+}\)/, '');
 };
 
 export const removeClassDeclaration = (source) => {
-    return source.replace(/export\s+default\s+class\s+\w+\s+extends\s+Vue\s*{/, '')
-        .replace(/}\s*<\/script>/, '</script>');
+    return source
+      .replace(/}\s*<\/script>/, '</script>')
+      .replace(/export\s+default\s+class\s+\w+\s+extends\s+Vue\s*{/, '')
+
 };
 
 export const transformWatchers = (source) => {
@@ -30,30 +32,49 @@ export const transformWatchers = (source) => {
 };
 
 export const transformProps = (source) => {
-    let output = source;
+    const propRegex = /@Prop\(([^)]*)\)\s+(\w+)!:([^;]+);/g;
+    const sourceRegex = /^([^@]+)/gm;
+    const propsObject = {};
 
-    const propAnnotations = output.match(/@Prop\(([^)]*)\)\s+(\w+)!:([^;]+);/g);
+    let newSource = source;
+    const [beforeText, afterText] = source.match(sourceRegex) || ['','']
 
-    if (!propAnnotations) {
-        return output;
+    for (const match of source.matchAll(propRegex)) {
+        const [, props, propName, propType] = match;
+        const defaultMatch = props.match(/default:\s*(.+),/);
+        const requiredMatch = props.match(/required:\s*(.+)?,/);
+
+        const defaultValue = defaultMatch?.[1];
+        const requiredValue = requiredMatch?.[1];
+
+        propsObject[propName] = {
+            type: propType.trim(),
+            default: defaultValue,
+            required: requiredValue
+        };
+
+        newSource = newSource.replace(match[0], '');
     }
 
-    const propsInterface = propAnnotations.map((annotation) => {
-        const [, options, propName, propType] = annotation.match(/@Prop\(([^)]*)\)\s+(\w+)!:([^;]+);/);
-        const propsOptions = options.trim() === '' ? '' : `, ${options.trim()}`;
-        return `${propName}${propsOptions}: ${propType}`;
-    });
+    if (!Object.keys(propsObject).length) {
+        return source;
+    }
 
-    const propsInterfaceString = `interface Props {\n  ${propsInterface.join('\n  ')}\n}\n`;
+    let interfaceCode = 'interface Props {\n';
+    for (const propName in propsObject) {
+        interfaceCode += `  ${propName}${propsObject[propName].required ? '' : '?'}: ${propsObject[propName].type},\n`;
+    }
+    interfaceCode += '}\n\n';
 
-    output = output.replace(/(import[^]*\n)(@Component)/, `$1${propsInterfaceString}\n$2`);
+    let propsInitialization = 'const props = withDefaults(defineProps<Props>(), {\n';
+    for (const propName in propsObject) {
+        if (propsObject[propName].default !== undefined) {
+            propsInitialization += `  ${propName}: ${propsObject[propName].default},\n`;
+        }
+    }
+    propsInitialization += '});';
 
-    output = output.replace(/@Prop\(([^)]*)\)\s+(\w+)!:([^;]+);/g, (match, options, propName, propType) => {
-        const propsOptions = options.trim() === '' ? '' : `, ${options.trim()}`;
-        return `const ${propName} = withDefaults(defineProps<Props>(), ${propType.replace(/[\r\n]/g, '')}${propsOptions});`;
-    });
-
-    return output;
+    return `${beforeText}\n${interfaceCode}${propsInitialization}\n${afterText}`;
 };
 
 export const transformToComposition = (source) => {
