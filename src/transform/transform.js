@@ -33,7 +33,7 @@ export const transformWatchers = (source) => {
 
 export const transformProps = (source) => {
     const propRegex = /@Prop\(([^)]*)\)\s+(\w+)!:([^;]+);/g;
-    const sourceRegex = /^([^@]+)/gm;
+    const sourceRegex = /^((?!@Prop)[\s\S])+/gm;
     const propsObject = {};
 
     let newSource = source;
@@ -133,11 +133,11 @@ export const transformToComposition = (source) => {
         removeImport,
         addSetupToScript,
         transformGetToComputed,
-        // removeComponentDecorator,
+        // removeComponentDecorator, FIX: remove other text
         removeClassDeclaration,
         transformWatchers,
         transformProps,
-        transformEmits,
+        // transformEmits,
         transformFunctions,
         transformVariables,
     ]
