@@ -37,7 +37,7 @@ export const transformProps = (source) => {
     const propsObject = {};
 
     let newSource = source;
-    const [beforeText, afterText] = source.match(sourceRegex) || ['','']
+    const [beforeText, afterText] = source.match(sourceRegex) ? [...source.match(sourceRegex)].filter(e => e.trim().length) : ['','']
 
     for (const match of source.matchAll(propRegex)) {
         const [, props, propName, propType] = match;

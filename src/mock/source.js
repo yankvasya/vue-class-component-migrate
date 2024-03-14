@@ -469,13 +469,22 @@ export default class MainComponent extends Vue {
     return;
   }
 
-  @Prop({ default: false, type: Boolean }) loading!: boolean;
-  @Prop({ default: 'xs' }) size!: 'xs' | 'sm' | 'md';
-  @Prop({ default: false, type: Boolean }) text!: boolean;
-  @Prop({ default: false, type: Boolean }) block!: boolean;
-  @Prop() rounded!: boolean;
-  @Prop({ default: false, type: Boolean }) loading!: boolean;
-  @Prop({ default: false, type: Boolean }) disabled!: boolean;
+  
+interface Props {
+  loading?: boolean,
+  size?: 'xs' | 'sm' | 'md',
+  text?: boolean,
+  block?: boolean,
+  rounded?: boolean,
+  disabled?: boolean,
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+  text: false,
+  block: false,
+  disabled: false,
+});
 
   get env() {
     return process.env;

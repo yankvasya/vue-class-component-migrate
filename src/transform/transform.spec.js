@@ -155,10 +155,10 @@ describe('full examples check', () => {
     //     expect(transformedSource).toBe(expectedOutputTransformedWatchers);
     // });
 
-    // test('transform props', () => {
-    //     const transformedSource = transformProps(initedSource);
-    //     expect(transformedSource).toBe(expectedOutputTransformedProps);
-    // });
+    test('transform props', () => {
+        const transformedSource = transformProps(initedSource);
+        expect(transformedSource).toBe(expectedOutputTransformedProps);
+    });
 
     // test('transform functions', () => {
     //     const transformedSource = transformFunctions(initedSource);
