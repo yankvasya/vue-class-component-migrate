@@ -139,11 +139,11 @@ describe('full examples check', () => {
 
     });
 
-    // test('remove component decorator', () => {
-    //     const transformedSource = removeComponentDecorator(initedSource);
-    //     expect(transformedSource).toBe(expectedOutputRemovedComponentDecorator);
-    // });
-    //
+    test('remove component decorator', () => {
+        const transformedSource = removeComponentDecorator(initedSource);
+        expect(transformedSource).toBe(expectedOutputRemovedComponentDecorator);
+    });
+
     test('remove class declaration', () => {
         const transformedSource = removeClassDeclaration(initedSource);
         expect(transformedSource).toBe(expectedOutputRemovedClassDeclaration);

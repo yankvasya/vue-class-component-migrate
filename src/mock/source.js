@@ -289,10 +289,7 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
 import ComponentFirst from '@/components/my-components/ComponentFirst.vue';
 
-@Component({
-  name: 'MainComponent',
-  components: { ComponentFirst },
-})
+
 export default class MainComponent extends Vue {
   value: boolean = false;
   value2: number = 1;

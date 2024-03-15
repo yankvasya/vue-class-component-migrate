@@ -15,7 +15,7 @@ export const transformGetToComputed = (source) => {
 };
 
 export const removeComponentDecorator = (source) => {
-    return source.replace(/@Component\({[\D\d:']+}\)/, '');
+    return source.replace(/@Component\({[.\s\D]+}\)/g, '');
 };
 
 export const removeClassDeclaration = (source) => {
@@ -133,7 +133,7 @@ export const transformToComposition = (source) => {
         removeImport,
         addSetupToScript,
         transformGetToComputed,
-        // removeComponentDecorator,
+        removeComponentDecorator,
         removeClassDeclaration,
         transformWatchers,
         transformProps,
