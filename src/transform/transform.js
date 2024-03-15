@@ -10,7 +10,7 @@ export const addSetupToScript = (source) => {
 
 export const transformGetToComputed = (source) => {
     return source.replace(/get\s+(\w+)\(\)\s*{([^}]*)}/g, (match, propertyName, propertyBody) => {
-        return `const ${propertyName} = computed(() => {${propertyBody}})`;
+        return `const ${propertyName} = computed(() => {${propertyBody}});`;
     });
 };
 
@@ -114,17 +114,19 @@ export const transformVariables = (source) => {
 };
 
 export const transformFunctions = (source) => {
-    const functionRegex = /(\w+)\s*\(([^)]*)\)\s*{([^}]*)}/g;
+    const functionRegex = /(?<![)\s])(?<!get)(?:\s+|^)(\w+)\(([^)]*)\)\s*{([^}]*)}/g;
 
     const replaceFunction = (match, functionName, parameters, body) => {
         parameters = parameters.trim();
-        body = body.trim();
+        body = body
 
-        return `const ${functionName} = (${parameters}) => {\n  ${body}\n}`;
+        return `const ${functionName} = (${parameters}) => {${body}}`;
     };
 
     return source.replace(functionRegex, replaceFunction);
 };
+
+
 
 export const transformToComposition = (source) => {
     let output = source
@@ -142,7 +144,7 @@ export const transformToComposition = (source) => {
         transformVariables,
     ]
 
-    for (const func of functions) {
+    for (const [index, func] of Object.entries(functions)) {
         output = func(output)
     }
 

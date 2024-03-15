@@ -11,7 +11,7 @@ import {
     expectedOutputTransformedProps,
     // expectedOutputTransformedEmits,
     expectedOutputTransformedFunctions,
-    expectedOutputTransformedVariables,
+    expectedOutputTransformedVariables, expectedOutputTransformedToComposition,
 } from '../mock/source';
 
 import {
@@ -37,7 +37,7 @@ import {
     transformProps,
     transformEmits,
     transformFunctions,
-  transformVariables
+    transformVariables, transformToComposition
 } from './transform';
 
 describe('min examples check', () => {
@@ -160,13 +160,18 @@ describe('full examples check', () => {
         expect(transformedSource).toBe(expectedOutputTransformedProps);
     });
 
-    // test('transform functions', () => {
-    //     const transformedSource = transformFunctions(initedSource);
-    //     expect(transformedSource).toBe(expectedOutputTransformedFunctions);
-    // });
+    test('transform functions', () => {
+        const transformedSource = transformFunctions(initedSource);
+        expect(transformedSource).toBe(expectedOutputTransformedFunctions);
+    });
 
     test('transform variables', () => {
         const transformedSource = transformVariables(initedSource);
         expect(transformedSource).toBe(expectedOutputTransformedVariables);
+    });
+
+    test('all transform', () => {
+        const transformedSource = transformToComposition(initedSource);
+        expect(transformedSource).toBe(expectedOutputTransformedToComposition)
     });
 })

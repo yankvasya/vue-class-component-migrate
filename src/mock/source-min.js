@@ -52,7 +52,7 @@ export const examplesTransformedGet =
   }`,
       expectedOutput: `const env = computed(() => {
     return process.env;
-  })`
+  });`
     },
   ]
 
@@ -266,15 +266,15 @@ export const examplesTransformedFunctions = [
 
 doSome() {
   number += 1
-}`,
+}
+`,
     expectedOutput:
 `const doFn = (value: string, params: {value: number}) => {
   console.log(value)
-}
-
-const doSome = () => {
+}const doSome = () => {
   number += 1
-}`,
+}
+`,
   },
 ]
 
