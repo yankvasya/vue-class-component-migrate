@@ -144,16 +144,16 @@ describe('full examples check', () => {
     //     expect(transformedSource).toBe(expectedOutputRemovedComponentDecorator);
     // });
     //
-    // test('remove class declaration', () => {
-    //     const transformedSource = removeClassDeclaration(initedSource);
-    //     expect(transformedSource).not.toMatch(/export\s+default\s+class\s+\w+\s+extends\s+Vue\s*{/);
-    //     expect(transformedSource).not.toMatch(/}\s*<\/script>/);
-    // });
+    test('remove class declaration', () => {
+        const transformedSource = removeClassDeclaration(initedSource);
+        expect(transformedSource).toBe(expectedOutputRemovedClassDeclaration);
+    });
 
-    // test('transform watchers', () => {
-    //     const transformedSource = transformWatchers(initedSource);
-    //     expect(transformedSource).toBe(expectedOutputTransformedWatchers);
-    // });
+    test('transform watchers', () => {
+        const removedClassDeclarationSource = removeClassDeclaration(initedSource);
+        const transformedSource = transformWatchers(removedClassDeclarationSource);
+        expect(transformedSource).toBe(expectedOutputTransformedWatchers);
+    });
 
     test('transform props', () => {
         const transformedSource = transformProps(initedSource);

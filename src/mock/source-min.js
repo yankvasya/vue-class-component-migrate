@@ -107,29 +107,36 @@ export const examplesTransformedWatchers = [
     source:
 `@Watch('value')
 onChangeValue(newValue) {
-console.log(newValue)
+  console.log(newValue)
 }`,
-    expectedOutput: `watch('value', (newValue) => {console.log(newValue)});`
+    expectedOutput:
+`watch('value', (newValue) => {
+  console.log(newValue)
+});`
   },
   {
     source:
 `@Watch('value')
 onChangeValue(newValue) {
-console.log(newValue)
+  console.log(newValue)
 }
 
 @Watch('value2')
 onChangeValue2(newValue, oldValue) {
-if (newValue > oldValue) {
-console.log('more')
-}
+  if (newValue > oldValue) {
+    console.log('more')
+  }
 }`,
     expectedOutput:
-`watch('value', (newValue) => {console.log(newValue)});
+`watch('value', (newValue) => {
+  console.log(newValue)
+});
 
-watch('value2', (newValue, oldValue) => {if (newValue > oldValue) {
-console.log('more')});
-}`
+watch('value2', (newValue, oldValue) => {
+  if (newValue > oldValue) {
+    console.log('more')
+  }
+});`
   }
 ]
 

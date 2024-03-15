@@ -4,6 +4,7 @@ export const initedSource =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -35,6 +36,10 @@ export default class MainComponent extends Vue {
 
   get env() {
     return process.env;
+  }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
   
    @Watch('value')
@@ -68,6 +73,7 @@ export const expectedOutputWithSetup =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -99,6 +105,10 @@ export default class MainComponent extends Vue {
 
   get env() {
     return process.env;
+  }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
   
    @Watch('value')
@@ -132,6 +142,7 @@ export const expectedOutputRemovedImports =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -163,6 +174,10 @@ export default class MainComponent extends Vue {
 
   get env() {
     return process.env;
+  }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
   
    @Watch('value')
@@ -196,6 +211,7 @@ export const expectedOutputTransformedGet =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -228,6 +244,10 @@ export default class MainComponent extends Vue {
   const env = computed(() => {
     return process.env;
   })
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
+  }
   
    @Watch('value')
    onChangeValue(newValue) {
@@ -260,6 +280,7 @@ export const expectedOutputRemovedComponentDecorator =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -291,6 +312,10 @@ export default class MainComponent extends Vue {
 
   get env() {
     return process.env;
+  }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
   
    @Watch('value')
@@ -324,6 +349,7 @@ export const expectedOutputRemovedClassDeclaration =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -336,7 +362,7 @@ import ComponentFirst from '@/components/my-components/ComponentFirst.vue';
   name: 'MainComponent',
   components: { ComponentFirst },
 })
-export default class MainComponent extends Vue {
+
   value: boolean = false;
   value2: number = 1;
 
@@ -356,6 +382,10 @@ export default class MainComponent extends Vue {
   get env() {
     return process.env;
   }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
+  }
   
    @Watch('value')
    onChangeValue(newValue) {
@@ -368,7 +398,6 @@ export default class MainComponent extends Vue {
           console.log('more')
       }
    }
-}
 </script>
 
 <style>
@@ -388,6 +417,7 @@ export const expectedOutputTransformedWatchers =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -400,7 +430,7 @@ import ComponentFirst from '@/components/my-components/ComponentFirst.vue';
   name: 'MainComponent',
   components: { ComponentFirst },
 })
-export default class MainComponent extends Vue {
+
   value: boolean = false;
   value2: number = 1;
 
@@ -421,14 +451,19 @@ export default class MainComponent extends Vue {
     return process.env;
   }
 
-  watch('value', (newValue) => {
-    console.log(newValue)
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
-
-  watch('value2', (newValue, oldValue) => {
-    console.log('more')});
-  })
-}
+  
+   watch('value', (newValue) => {
+      console.log(newValue)
+   });
+   
+   watch('value2', (newValue, oldValue) => {
+      if (newValue > oldValue) {
+          console.log('more')
+      }
+   });
 </script>
 
 <style>
@@ -448,6 +483,7 @@ export const expectedOutputTransformedProps =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -489,6 +525,10 @@ const props = withDefaults(defineProps<Props>(), {
   get env() {
     return process.env;
   }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
+  }
   
    @Watch('value')
    onChangeValue(newValue) {
@@ -521,6 +561,7 @@ export const expectedOutputTransformedToComposition =
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -548,6 +589,11 @@ import ComponentFirst from '@/components/my-components/ComponentFirst.vue';
   const env = computed(() => {
     return process.env;
   }) 
+  
+   const doFn = (value: string, params: {value: number}) => {
+    console.log(value)
+   }
+
 
    watch(value, (newValue) => {
       console.log(newValue)
@@ -576,6 +622,7 @@ export const expectedOutputTransformedVariables = `<template>
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -608,6 +655,10 @@ export default class MainComponent extends Vue {
   get env() {
     return process.env;
   }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
+  }
   
    @Watch('value')
    onChangeValue(newValue) {
@@ -639,6 +690,7 @@ export const expectedOutputTransformedFunctions = `<template>
     class="button"
   >
     <ComponentFirst v-if="loading" class="body" />
+    <button @click="doFn"></button>
   </button>
 </template>
 
@@ -670,6 +722,10 @@ export default class MainComponent extends Vue {
 
   get env() {
     return process.env;
+  }
+
+  doFn(value: string, params: {value: number}) {
+    console.log(value)
   }
   
    @Watch('value')

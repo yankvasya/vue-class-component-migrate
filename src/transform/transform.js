@@ -26,8 +26,8 @@ export const removeClassDeclaration = (source) => {
 };
 
 export const transformWatchers = (source) => {
-    return source.replace(/@Watch\(['"](.+)['"]\)\s*(\w+)\(([^)]+)\)\s*{([\s\S]*?)}/g, (match, property, methodName, args, body) => {
-        return `watch('${property}', (${args}) => {${body.trim()}});`;
+    return source.replace(/@Watch\(['"](.+)['"]\)\s*(\w+)\(([^)]+)\)\s*{([\s\S]*?)}(?=\s*@Watch|$|\n?<\/script>)/g, (match, property, methodName, args, body) => {
+        return `watch('${property}', (${args}) => {${body}});`;
     });
 };
 
@@ -133,7 +133,7 @@ export const transformToComposition = (source) => {
         removeImport,
         addSetupToScript,
         transformGetToComputed,
-        // removeComponentDecorator, FIX: remove other text
+        // removeComponentDecorator,
         removeClassDeclaration,
         transformWatchers,
         transformProps,
